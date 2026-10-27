@@ -41,6 +41,7 @@
 		B015 /* ClipboardPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017; };
 		B033 /* HexColorParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035; };
 		B034 /* GroupScopePickerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036; };
+		B035 /* FileClipboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F037; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		F034 /* MenuBarIconFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIconFactory.swift; sourceTree = "<group>"; };
 		F035 /* HexColorParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorParsing.swift; sourceTree = "<group>"; };
 		F036 /* GroupScopePickerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScopePickerPanel.swift; sourceTree = "<group>"; };
+		F037 /* FileClipboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileClipboardPayload.swift; sourceTree = "<group>"; };
 		PROD /* CAP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -141,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				F004,
+				F037,
 				F013,
 				F022,
 				F003,
@@ -298,6 +301,7 @@
 				B032,
 				B033,
 				B034,
+				B035,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

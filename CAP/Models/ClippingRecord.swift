@@ -32,6 +32,7 @@ struct ClippingRecord: Identifiable, Equatable, Sendable {
         guard let plainText, !plainText.isEmpty else {
             switch payloadFormat {
             case .png, .tiff: return "Immagine"
+            case .fileURLs: return fileDisplayLabel ?? "File"
             case .rtf: return "Testo formattato"
             case .html: return "HTML"
             case .plainText: return "Vuoto"
@@ -59,6 +60,7 @@ struct ClippingRecord: Identifiable, Equatable, Sendable {
         guard let plainText, !plainText.isEmpty else {
             switch payloadFormat {
             case .png, .tiff: return "Image"
+            case .fileURLs: return fileDisplayLabel ?? "File"
             case .rtf: return "Rich text"
             case .html: return "HTML"
             case .plainText: return "Empty"
@@ -76,6 +78,7 @@ enum PayloadFormat: String, Codable, Sendable {
     case html
     case png
     case tiff
+    case fileURLs
 }
 
 struct PasteboardSnapshot: Sendable {
@@ -84,6 +87,7 @@ struct PasteboardSnapshot: Sendable {
     let htmlData: Data?
     let imageData: Data?
     let imageUTI: String?
+    let fileURLs: [URL]?
     let sourceBundleID: String?
     let suggestedTitle: String?
 }

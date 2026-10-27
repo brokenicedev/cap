@@ -31,6 +31,13 @@ enum PasteService {
                     record.payloadFormat == .tiff ? .tiff : .png
                 pb.setData(record.payload, forType: type)
             }
+        case .fileURLs:
+            let urls = FileClipboardSupport.existingURLs(from: record.payload)
+            if !urls.isEmpty {
+                pb.writeObjects(urls as [NSURL])
+            } else if let text = record.plainText {
+                pb.setString(text, forType: .string)
+            }
         }
         let suppressDuration: TimeInterval = record.payloadFormat.isImage ? 1.0 : 0.5
         suppressNextCapture = true
@@ -182,7 +189,7 @@ private extension PayloadFormat {
     var isImage: Bool {
         switch self {
         case .png, .tiff: return true
-        default: return false
+        case .fileURLs, .plainText, .rtf, .html: return false
         }
     }
 }

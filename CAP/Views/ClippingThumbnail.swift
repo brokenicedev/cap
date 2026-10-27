@@ -7,9 +7,24 @@ enum ClippingThumbnail {
         case .png, .tiff:
             guard let source = NSImage(data: clipping.payload) else { return nil }
             return downscaled(source, maxPixelSize: maxPixelSize)
+        case .fileURLs:
+            guard let url = clipping.fileURLs.first(where: { FileClipboardSupport.isImageFile(at: $0) }),
+                  let source = NSImage(contentsOf: url) else { return nil }
+            return downscaled(source, maxPixelSize: maxPixelSize)
         case .plainText, .rtf, .html:
             return nil
         }
+    }
+
+    static func fileIcon(for clipping: ClippingRecord, size: CGFloat = 44) -> NSImage? {
+        guard clipping.isFileCopy else { return nil }
+        let urls = clipping.fileURLs
+        guard let url = urls.first else {
+            return NSImage(systemSymbolName: "doc", accessibilityDescription: nil)
+        }
+        let icon = NSWorkspace.shared.icon(forFile: url.path)
+        icon.size = NSSize(width: size, height: size)
+        return icon
     }
 
     private static func downscaled(_ image: NSImage, maxPixelSize: CGFloat) -> NSImage {
@@ -74,11 +89,39 @@ struct ClippingThumbnailView: View {
     }
 }
 
+struct ClippingFileIconView: View {
+    let clipping: ClippingRecord
+    var size: CGFloat = 44
+
+    var body: some View {
+        if let nsImage = ClippingThumbnail.fileIcon(for: clipping, size: size) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(Color.white.opacity(0.08))
+                Image(nsImage: nsImage)
+                    .resizable()
+                    .interpolation(.high)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: size - 8, height: size - 8)
+            }
+            .frame(width: size + 4, height: size)
+            .overlay(
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .strokeBorder(Color.primary.opacity(0.22), lineWidth: 1)
+            )
+        }
+    }
+}
+
 extension ClippingRecord {
     var showsImagePreview: Bool {
         switch payloadFormat {
-        case .png, .tiff: return ClippingThumbnail.image(for: self) != nil
+        case .png, .tiff, .fileURLs: return ClippingThumbnail.image(for: self) != nil
         default: return false
         }
+    }
+
+    var showsFileIcon: Bool {
+        isFileCopy && !showsImagePreview
     }
 }

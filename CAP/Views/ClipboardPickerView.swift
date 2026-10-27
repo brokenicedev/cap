@@ -282,7 +282,7 @@ private struct ClippingRow: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 if clipping.showsImagePreview {
-                    if let caption = imageCaption {
+                    if let caption = fileOrImageCaption {
                         Text(caption)
                             .font(.system(size: 13))
                             .foregroundStyle(.secondary)
@@ -291,6 +291,16 @@ private struct ClippingRow: View {
                         Text("Immagine")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundStyle(.secondary)
+                    }
+                } else if clipping.isFileCopy {
+                    Text(clipping.fileDisplayLabel ?? "File")
+                        .font(.system(size: 13, weight: .medium))
+                        .lineLimit(2)
+                    if let subtitle = fileCopySubtitle {
+                        Text(subtitle)
+                            .font(.system(size: 11))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
                     }
                 } else {
                     Text(clipping.listPreviewText)
@@ -320,9 +330,11 @@ private struct ClippingRow: View {
         if clipping.showsImagePreview {
             ClippingThumbnailView(
                 clipping: clipping,
-                height: imageCaption == nil ? 62 : 54,
-                maxWidth: imageCaption == nil ? 104 : 88
+                height: fileOrImageCaption == nil ? 62 : 54,
+                maxWidth: fileOrImageCaption == nil ? 104 : 88
             )
+        } else if clipping.showsFileIcon {
+            ClippingFileIconView(clipping: clipping, size: 44)
         } else if let hexColor = clipping.listHexColor {
             ClippingColorSwatch(color: hexColor, size: 16)
         }
@@ -383,9 +395,19 @@ private struct ClippingRow: View {
         Color.secondary.opacity(0.5)
     }
 
-    private var imageCaption: String? {
+    private var fileOrImageCaption: String? {
+        if clipping.isFileCopy {
+            return clipping.fileDisplayLabel
+        }
         guard let plain = clipping.plainText?.trimmingCharacters(in: .whitespacesAndNewlines),
               !plain.isEmpty else { return nil }
         return plain
+    }
+
+    private var fileCopySubtitle: String? {
+        guard clipping.isFileCopy else { return nil }
+        let urls = clipping.fileURLs
+        if urls.isEmpty { return "File (non più sul disco)" }
+        return FileClipboardSupport.listSubtitle(for: urls)
     }
 }

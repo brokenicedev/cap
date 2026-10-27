@@ -330,6 +330,11 @@ final class ClippingStore {
         if let r = snapshot.rtfData { hasher.update(data: r) }
         if let h = snapshot.htmlData { hasher.update(data: h) }
         if let i = snapshot.imageData { hasher.update(data: i) }
+        if let urls = snapshot.fileURLs {
+            for url in urls {
+                hasher.update(data: Data(url.path.utf8))
+            }
+        }
         let digest = Array(hasher.finalize())
         let bytes = Array(digest.prefix(16))
         return UUID(uuid: (
@@ -341,6 +346,9 @@ final class ClippingStore {
     }
 
     private static func primaryPayload(from snapshot: PasteboardSnapshot) -> (Data, PayloadFormat) {
+        if let urls = snapshot.fileURLs, !urls.isEmpty {
+            return (FileClipboardPayload.encode(urls: urls), .fileURLs)
+        }
         if let image = snapshot.imageData {
             if snapshot.imageUTI == UTType.tiff.identifier {
                 return (image, .tiff)
