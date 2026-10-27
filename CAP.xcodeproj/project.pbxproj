@@ -42,6 +42,8 @@
 		B033 /* HexColorParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035; };
 		B034 /* GroupScopePickerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036; };
 		B035 /* FileClipboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F037; };
+		B036 /* UpdaterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038; };
+		B037 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = PROD_SPARKLE /* Sparkle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +84,7 @@
 		F035 /* HexColorParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorParsing.swift; sourceTree = "<group>"; };
 		F036 /* GroupScopePickerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScopePickerPanel.swift; sourceTree = "<group>"; };
 		F037 /* FileClipboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileClipboardPayload.swift; sourceTree = "<group>"; };
+		F038 /* UpdaterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterController.swift; sourceTree = "<group>"; };
 		PROD /* CAP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -90,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B037 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +190,7 @@
 				F032,
 				F023,
 				F027,
+				F038,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -220,6 +225,9 @@
 			dependencies = (
 			);
 			name = CAP;
+			packageProductDependencies = (
+				PROD_SPARKLE /* Sparkle */,
+			);
 			productName = CAP;
 			productReference = PROD /* CAP.app */;
 			productType = "com.apple.product-type.application";
@@ -243,6 +251,9 @@
 				Base,
 			);
 			mainGroup = ROOT;
+			packageReferences = (
+				PKG_SPARKLE /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			productRefGroup = GRP_PRODUCTS /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -302,6 +313,7 @@
 				B033,
 				B034,
 				B035,
+				B036,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +365,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CAP/CAP.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9V7GQ329MP;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -365,7 +378,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Debug;
 				INFOPLIST_KEY_CFBundleDisplayName = "CAP Debug";
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.francesco.CAP;
+				PRODUCT_BUNDLE_IDENTIFIER = brokenice.it.cap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -377,6 +390,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CAP/CAP.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9V7GQ329MP;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -388,7 +402,7 @@
 				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.francesco.CAP;
+				PRODUCT_BUNDLE_IDENTIFIER = brokenice.it.cap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -417,6 +431,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		PKG_SPARKLE /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		PROD_SPARKLE /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = PKG_SPARKLE /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = PROJECT /* Project object */;
 }
