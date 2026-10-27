@@ -47,6 +47,8 @@ struct ScopePickerMenu: View {
                         return appState.shortcutLabel(for: scope)
                     }
                 },
+                favoriteGroupIDs: appState.favoriteGroupIDs,
+                onToggleFavorite: { appState.toggleFavorite(groupId: $0) },
                 onPick: { groupId in
                     if let groupId {
                         let scope = HistoryScope.group(groupId)
@@ -59,6 +61,65 @@ struct ScopePickerMenu: View {
                 }
             )
         }
+    }
+}
+
+/// Gruppi preferiti mostrati come scorciatoie accanto alla select.
+struct FavoriteGroupChips: View {
+    @EnvironmentObject private var appState: AppState
+    @Binding var selection: HistoryScope
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 6) {
+                ForEach(appState.favoriteGroups) { group in
+                    FavoriteGroupChip(
+                        group: group,
+                        isSelected: selection == .group(group.id)
+                    ) {
+                        selection = .group(group.id)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct FavoriteGroupChip: View {
+    let group: ClipboardGroup
+    let isSelected: Bool
+    let action: () -> Void
+    @State private var isHovered = false
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 5) {
+                Circle()
+                    .fill(group.swiftUIColor)
+                    .frame(width: 8, height: 8)
+                Text(group.name)
+                    .font(.system(size: 12, weight: isSelected ? .semibold : .regular))
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(
+                isSelected
+                    ? group.swiftUIColor.opacity(0.25)
+                    : Color.primary.opacity(isHovered ? 0.12 : 0.06)
+            )
+            .clipShape(Capsule())
+            .overlay(
+                Capsule().strokeBorder(
+                    isSelected ? group.swiftUIColor.opacity(0.6) : Color.primary.opacity(0.08),
+                    lineWidth: 1
+                )
+            )
+            .contentShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .onHover { isHovered = $0 }
+        .help(group.name)
     }
 }
 

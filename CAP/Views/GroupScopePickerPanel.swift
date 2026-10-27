@@ -6,6 +6,9 @@ struct GroupScopePickerPanel: View {
     var assignedGroupId: UUID?
     var showsShortcuts: Bool
     var shortcutProvider: (HistoryScope) -> String?
+    /// Se presente, mostra una stellina accanto a ogni gruppo.
+    var favoriteGroupIDs: Set<UUID> = []
+    var onToggleFavorite: ((UUID) -> Void)?
     let onPick: (UUID?) -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -27,7 +30,27 @@ struct GroupScopePickerPanel: View {
 
     private func pickRow(title: String, scope: HistoryScope, groupId: UUID?) -> some View {
         let selected = assignedGroupId == groupId
-        return Button {
+        return HStack(spacing: 4) {
+            pickButton(title: title, scope: scope, groupId: groupId, selected: selected)
+            if let onToggleFavorite {
+                if let groupId {
+                    FavoriteStarButton(isFavorite: favoriteGroupIDs.contains(groupId)) {
+                        onToggleFavorite(groupId)
+                    }
+                } else {
+                    // Mantiene allineate le righe (Generale non ha stellina).
+                    Color.clear.frame(width: 20, height: 20)
+                }
+            }
+        }
+        .padding(.vertical, 5)
+        .padding(.horizontal, 6)
+        .background(selected ? Color.accentColor.opacity(0.14) : Color.clear)
+        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+    }
+
+    private func pickButton(title: String, scope: HistoryScope, groupId: UUID?, selected: Bool) -> some View {
+        Button {
             onPick(groupId)
             dismiss()
         } label: {
@@ -51,9 +74,24 @@ struct GroupScopePickerPanel: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .padding(.vertical, 5)
-        .padding(.horizontal, 6)
-        .background(selected ? Color.accentColor.opacity(0.14) : Color.clear)
-        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+    }
+}
+
+private struct FavoriteStarButton: View {
+    let isFavorite: Bool
+    let action: () -> Void
+    @State private var isHovered = false
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: isFavorite ? "star.fill" : "star")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(isFavorite ? Color.yellow : Color.secondary.opacity(isHovered ? 0.9 : 0.5))
+                .frame(width: 20, height: 20)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .onHover { isHovered = $0 }
+        .help(isFavorite ? "Rimuovi dai preferiti" : "Mostra accanto alla selezione")
     }
 }

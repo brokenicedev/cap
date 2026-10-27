@@ -6,6 +6,7 @@ struct PreferencesView: View {
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
     @State private var closeAfterPaste = Preferences.closePanelAfterPaste
     @State private var generalShortcut = Preferences.generalScopeShortcut
+    @State private var panelPosition = Preferences.panelPosition
     @State private var launchAtLoginError: String?
     @State private var accessibilityTrusted = AccessibilityAuthorization.isTrusted
     @State private var autoCheckUpdates = UpdaterController.shared.automaticallyChecksForUpdates
@@ -45,6 +46,14 @@ struct PreferencesView: View {
                     ForEach(GeneralScopeShortcut.allCases) { shortcut in
                         Text(shortcut.title).tag(shortcut)
                     }
+                }
+                Picker("Apri il pannello", selection: $panelPosition) {
+                    ForEach(PanelPosition.allCases) { position in
+                        Text(position.title).tag(position)
+                    }
+                }
+                .onChange(of: panelPosition) { _, value in
+                    Preferences.setPanelPosition(value)
                 }
                 Toggle("Apri all’avvio del Mac", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { _, enabled in

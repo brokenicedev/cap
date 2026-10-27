@@ -42,6 +42,37 @@ enum Preferences {
         defaults.set(value.rawValue, forKey: Keys.generalScopeShortcut)
     }
 
+    /// Dove aprire il pannello quando si usa la scorciatoia da tastiera.
+    static var panelPosition: PanelPosition {
+        guard let raw = defaults.string(forKey: Keys.panelPosition),
+              let value = PanelPosition(rawValue: raw) else {
+            return .followMouse
+        }
+        return value
+    }
+
+    static func setPanelPosition(_ value: PanelPosition) {
+        defaults.set(value.rawValue, forKey: Keys.panelPosition)
+    }
+
+    /// Pannello fissato: non si chiude quando perde il focus.
+    static var isPanelPinned: Bool {
+        defaults.bool(forKey: Keys.panelPinned)
+    }
+
+    static func setPanelPinned(_ value: Bool) {
+        defaults.set(value, forKey: Keys.panelPinned)
+    }
+
+    /// Gruppi marcati con la stellina (mostrati accanto alla select).
+    static var favoriteGroupIDs: [UUID] {
+        (defaults.stringArray(forKey: Keys.favoriteGroupIDs) ?? []).compactMap(UUID.init(uuidString:))
+    }
+
+    static func setFavoriteGroupIDs(_ ids: [UUID]) {
+        defaults.set(ids.map(\.uuidString), forKey: Keys.favoriteGroupIDs)
+    }
+
     static func favoriteListName(slot: Int) -> String {
         let key = Keys.favoriteNamePrefix + String(slot)
         if let custom = defaults.string(forKey: key), !custom.isEmpty {
@@ -95,7 +126,24 @@ enum Preferences {
         static let favoriteNamePrefix = "favoriteListName_"
         static let closeAfterPaste = "closePanelAfterPaste"
         static let generalScopeShortcut = "generalScopeShortcut"
+        static let favoriteGroupIDs = "favoriteGroupIDs"
+        static let panelPosition = "panelPosition"
+        static let panelPinned = "panelPinned"
         static let legacyPreferencesMigrated = "migratedUserDefaultsFromLegacyBundle"
+    }
+}
+
+enum PanelPosition: String, CaseIterable, Identifiable {
+    case followMouse
+    case belowStatusBarIcon
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .followMouse: return "Vicino al puntatore"
+        case .belowStatusBarIcon: return "Sotto l’icona nella barra dei menu"
+        }
     }
 }
 

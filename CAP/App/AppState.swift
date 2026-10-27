@@ -10,6 +10,10 @@ final class AppState: ObservableObject {
     @Published var searchQuery = ""
     @Published var activeScope: HistoryScope = .general
     @Published var selectedClippingID: UUID?
+    @Published var isPanelPinned = Preferences.isPanelPinned {
+        didSet { Preferences.setPanelPinned(isPanelPinned) }
+    }
+    @Published private(set) var favoriteGroupIDs: Set<UUID> = Set(Preferences.favoriteGroupIDs)
 
     let store = ClippingStore()
     private var monitor: PasteboardMonitor?
@@ -33,6 +37,20 @@ final class AppState: ObservableObject {
             ($0.plainText ?? "").localizedCaseInsensitiveContains(q)
                 || $0.displayTitle.localizedCaseInsensitiveContains(q)
         }
+    }
+
+    /// Gruppi preferiti, nell'ordine dei gruppi.
+    var favoriteGroups: [ClipboardGroup] {
+        sortedGroups.filter { favoriteGroupIDs.contains($0.id) }
+    }
+
+    func toggleFavorite(groupId: UUID) {
+        if favoriteGroupIDs.contains(groupId) {
+            favoriteGroupIDs.remove(groupId)
+        } else {
+            favoriteGroupIDs.insert(groupId)
+        }
+        Preferences.setFavoriteGroupIDs(Array(favoriteGroupIDs))
     }
 
     func title(for scope: HistoryScope) -> String {
@@ -181,6 +199,9 @@ final class AppState: ObservableObject {
 
     func deleteGroup(id: UUID) throws {
         try store.deleteGroup(id: id)
+        if favoriteGroupIDs.remove(id) != nil {
+            Preferences.setFavoriteGroupIDs(Array(favoriteGroupIDs))
+        }
         reloadGroups()
     }
 

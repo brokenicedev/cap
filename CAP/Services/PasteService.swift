@@ -77,7 +77,11 @@ enum PasteService {
         let isImage = record?.payloadFormat.isImage == true
         let pasteDelay: TimeInterval = isImage ? 0.45 : 0.35
 
-        AppCoordinator.closeAllPanels()
+        // Pannello fissato: resta visibile, il focus passa comunque all'app target.
+        let keepPanelOpen = AppCoordinator.appState?.isPanelPinned == true
+        if !keepPanelOpen {
+            AppCoordinator.closeAllPanels()
+        }
 
         let finish: () -> Void = {
             deliverInFlight = false
@@ -104,11 +108,11 @@ enum PasteService {
             if let target, !target.isActive {
                 target.activate(options: [.activateIgnoringOtherApps, .activateAllWindows])
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    NSApp.hide(nil)
+                    if !keepPanelOpen { NSApp.hide(nil) }
                     sendPaste()
                 }
             } else {
-                NSApp.hide(nil)
+                if !keepPanelOpen { NSApp.hide(nil) }
                 sendPaste()
             }
         }

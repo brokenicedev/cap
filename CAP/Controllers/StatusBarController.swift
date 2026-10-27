@@ -19,6 +19,7 @@ final class StatusBarController: NSObject {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem = item
         guard let button = item.button else { return }
+        historyPanel.statusBarButton = button
         button.target = self
         button.action = #selector(handleStatusBarClick(_:))
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])

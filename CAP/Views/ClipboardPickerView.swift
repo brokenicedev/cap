@@ -26,7 +26,12 @@ struct ClipboardPickerView: View {
             Divider().opacity(0.35)
             bottomToolbar
         }
-        .frame(width: HistoryPanelMetrics.width, height: HistoryPanelMetrics.height)
+        .frame(
+            minWidth: HistoryPanelMetrics.minWidth,
+            maxWidth: .infinity,
+            minHeight: HistoryPanelMetrics.minHeight,
+            maxHeight: .infinity
+        )
         .preferredColorScheme(.dark)
         .focusable(true)
         .focusEffectDisabled()
@@ -62,6 +67,10 @@ struct ClipboardPickerView: View {
         HStack(alignment: .center, spacing: 8) {
             ScopePickerMenu(selection: scopeBinding)
 
+            if !appState.favoriteGroups.isEmpty {
+                FavoriteGroupChips(selection: scopeBinding)
+            }
+
             Spacer(minLength: 0)
 
             if appState.activeScope == .general {
@@ -94,6 +103,14 @@ struct ClipboardPickerView: View {
                         }
                     }
                 }
+            }
+
+            HeaderIconButton(
+                systemName: appState.isPanelPinned ? "pin.fill" : "pin",
+                help: appState.isPanelPinned ? "Sblocca: chiudi quando perde il focus" : "Fissa: resta aperto anche senza focus",
+                isActive: appState.isPanelPinned
+            ) {
+                appState.isPanelPinned.toggle()
             }
         }
         .padding(.horizontal, 10)

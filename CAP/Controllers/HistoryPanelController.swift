@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import SwiftUI
 
 @MainActor
@@ -8,8 +9,12 @@ final class HistoryPanelController {
     private var hostingView: ClipboardPanelHostingView<AnyView>?
     private var keyMonitor: Any?
     private var resignKeyObserver: NSObjectProtocol?
+    private var endResizeObserver: NSObjectProtocol?
+    private var pinnedObserver: AnyCancellable?
     private var isPerformingPaste = false
     private var openedAt: Date?
+    /// Icona nella barra dei menu, usata come ancora quando richiesto dalle impostazioni.
+    weak var statusBarButton: NSStatusBarButton?
 
     init(appState: AppState) {
         self.appState = appState
@@ -35,7 +40,13 @@ final class HistoryPanelController {
         }
         PasteTargetTracker.captureForHotKey()
         NSApp.activate(ignoringOtherApps: true)
-        show(anchor: .cursor, deferFocus: true)
+        let anchor: PanelAnchor
+        if Preferences.panelPosition == .belowStatusBarIcon, let statusBarButton {
+            anchor = .statusBar(statusBarButton)
+        } else {
+            anchor = .cursor
+        }
+        show(anchor: anchor, deferFocus: true)
         scheduleFocusRetries()
     }
 
@@ -83,6 +94,10 @@ final class HistoryPanelController {
         let root = AnyView(ClipboardPickerView().environmentObject(appState))
         let hosting = ClipboardPanelHostingView(rootView: root)
         hosting.frame = NSRect(origin: .zero, size: HistoryPanelMetrics.contentSize)
+        // La dimensione la decide la finestra (ridimensionabile): evita che SwiftUI
+        // aggiorni i vincoli della finestra durante il layout (ricorsione di layout).
+        hosting.sizingOptions = []
+        hosting.autoresizingMask = [.width, .height]
         hosting.appearance = NSAppearance(named: .darkAqua)
         // Invio/frecce gestiti dal local monitor; evita doppia gestione qui.
         hosting.onKeyDown = { _ in false }
@@ -90,7 +105,7 @@ final class HistoryPanelController {
 
         let panel = KeyablePanel(
             contentRect: hosting.frame,
-            styleMask: [.titled, .closable, .fullSizeContentView],
+            styleMask: [.titled, .closable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
@@ -100,11 +115,12 @@ final class HistoryPanelController {
         panel.isFloatingPanel = true
         panel.level = .floating
         panel.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
-        panel.hidesOnDeactivate = true
+        panel.hidesOnDeactivate = !appState.isPanelPinned
         panel.isReleasedWhenClosed = false
         panel.appearance = NSAppearance(named: .darkAqua)
         panel.backgroundColor = NSColor.windowBackgroundColor
         panel.contentView = hosting
+        panel.contentMinSize = HistoryPanelMetrics.minContentSize
         panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
         panel.standardWindowButton(.zoomButton)?.isHidden = true
         self.panel = panel
@@ -115,6 +131,18 @@ final class HistoryPanelController {
             queue: .main
         ) { [weak self] _ in
             Task { @MainActor in self?.closeIfResignedOutside() }
+        }
+        pinnedObserver = appState.$isPanelPinned
+            .receive(on: RunLoop.main)
+            .sink { [weak panel] pinned in panel?.hidesOnDeactivate = !pinned }
+        endResizeObserver = NotificationCenter.default.addObserver(
+            forName: NSWindow.didEndLiveResizeNotification,
+            object: panel,
+            queue: .main
+        ) { [weak panel] _ in
+            guard let panel else { return }
+            let size = panel.contentRect(forFrameRect: panel.frame).size
+            Task { @MainActor in HistoryPanelMetrics.saveContentSize(size) }
         }
         return panel
     }
@@ -133,7 +161,7 @@ final class HistoryPanelController {
     }
 
     private func closeIfResignedOutside() {
-        guard !isPerformingPaste, let panel, panel.isVisible else { return }
+        guard !isPerformingPaste, !appState.isPanelPinned, let panel, panel.isVisible else { return }
         if let openedAt, Date().timeIntervalSince(openedAt) < 0.45 {
             return
         }
