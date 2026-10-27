@@ -1,0 +1,418 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B001 /* CAPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F001; };
+		B002 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002; };
+		B003 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F003; };
+		B004 /* ClippingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004; };
+		B005 /* PasteboardMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F005; };
+		B006 /* ClippingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F006; };
+		B007 /* PasteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F007; };
+		B008 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F008; };
+		B009 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009; };
+		B010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F010; };
+		B011 /* HistoryScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = F013; };
+		B012 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014; };
+		B013 /* GlobalHotKeyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015; };
+		B014 /* HistoryPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F016; };
+		B016 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018; };
+		B017 /* HistoryPanelMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019; };
+		B018 /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F020; };
+		B019 /* ClippingThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021; };
+		B020 /* ClipboardGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F022; };
+		B021 /* ClippingStore+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = F023; };
+		B022 /* GroupsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F024; };
+		B023 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025; };
+		B024 /* KeyablePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F026; };
+		B025 /* ScopeKeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F027; };
+		B026 /* ScopePickerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F028; };
+		B027 /* AppIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F029; };
+		B028 /* AccessibilityAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030; };
+		B029 /* PasteTargetTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F031; };
+		B030 /* AccessibilityPaste.swift in Sources */ = {isa = PBXBuildFile; fileRef = F032; };
+		B031 /* BuildFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F033; };
+		B032 /* MenuBarIconFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F034; };
+		B015 /* ClipboardPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017; };
+		B033 /* HexColorParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035; };
+		B034 /* GroupScopePickerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F001 /* CAPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPApp.swift; sourceTree = "<group>"; };
+		F002 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		F003 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		F004 /* ClippingRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClippingRecord.swift; sourceTree = "<group>"; };
+		F005 /* PasteboardMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardMonitor.swift; sourceTree = "<group>"; };
+		F006 /* ClippingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClippingStore.swift; sourceTree = "<group>"; };
+		F007 /* PasteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteService.swift; sourceTree = "<group>"; };
+		F008 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		F009 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		F010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F011 /* CAP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CAP.entitlements; sourceTree = "<group>"; };
+		F012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F013 /* HistoryScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryScope.swift; sourceTree = "<group>"; };
+		F014 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		F015 /* GlobalHotKeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotKeyService.swift; sourceTree = "<group>"; };
+		F016 /* HistoryPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPanelController.swift; sourceTree = "<group>"; };
+		F018 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+		F019 /* HistoryPanelMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPanelMetrics.swift; sourceTree = "<group>"; };
+		F020 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
+		F021 /* ClippingThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClippingThumbnail.swift; sourceTree = "<group>"; };
+		F022 /* ClipboardGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardGroup.swift; sourceTree = "<group>"; };
+		F023 /* ClippingStore+Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClippingStore+Groups.swift"; sourceTree = "<group>"; };
+		F024 /* GroupsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsSettingsView.swift; sourceTree = "<group>"; };
+		F025 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
+		F026 /* KeyablePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyablePanel.swift; sourceTree = "<group>"; };
+		F027 /* ScopeKeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopeKeyboardShortcuts.swift; sourceTree = "<group>"; };
+		F028 /* ScopePickerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopePickerMenu.swift; sourceTree = "<group>"; };
+		F017 /* ClipboardPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardPickerView.swift; sourceTree = "<group>"; };
+		F029 /* AppIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdentity.swift; sourceTree = "<group>"; };
+		F030 /* AccessibilityAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityAuthorization.swift; sourceTree = "<group>"; };
+		F031 /* PasteTargetTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteTargetTracker.swift; sourceTree = "<group>"; };
+		F032 /* AccessibilityPaste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityPaste.swift; sourceTree = "<group>"; };
+		F033 /* BuildFlavor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFlavor.swift; sourceTree = "<group>"; };
+		F034 /* MenuBarIconFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIconFactory.swift; sourceTree = "<group>"; };
+		F035 /* HexColorParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorParsing.swift; sourceTree = "<group>"; };
+		F036 /* GroupScopePickerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScopePickerPanel.swift; sourceTree = "<group>"; };
+		PROD /* CAP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FRAMEWORKS /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ROOT = {
+			isa = PBXGroup;
+			children = (
+				GRP_APP /* CAP */,
+				GRP_PRODUCTS /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		GRP_PRODUCTS /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				PROD /* CAP.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		GRP_APP /* CAP */ = {
+			isa = PBXGroup;
+			children = (
+				GRP_APP_ENTRY /* App */,
+				GRP_MODELS /* Models */,
+				GRP_CONTROLLERS /* Controllers */,
+				GRP_SERVICES /* Services */,
+				GRP_UTILITIES /* Utilities */,
+				GRP_VIEWS /* Views */,
+				F010,
+				F011,
+				F012,
+			);
+			path = CAP;
+			sourceTree = "<group>";
+		};
+		GRP_APP_ENTRY /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F001,
+				F029,
+				F002,
+				F014,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		GRP_MODELS /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F004,
+				F013,
+				F022,
+				F003,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		GRP_CONTROLLERS /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F016,
+				F018,
+				F025,
+				F026,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		GRP_UTILITIES /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F033,
+				F034,
+				F035,
+				F019,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		GRP_SERVICES /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F005,
+				F006,
+				F007,
+				F015,
+				F020,
+				F030,
+				F031,
+				F032,
+				F023,
+				F027,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		GRP_VIEWS /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F008,
+				F009,
+				F017,
+				F021,
+				F024,
+				F028,
+				F036,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		TARGET /* CAP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFG_LIST_TARGET /* Build configuration list for PBXNativeTarget "CAP" */;
+			buildPhases = (
+				SOURCES /* Sources */,
+				FRAMEWORKS /* Frameworks */,
+				RESOURCES /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CAP;
+			productName = CAP;
+			productReference = PROD /* CAP.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		PROJECT /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+			};
+			buildConfigurationList = CFG_LIST_PROJECT /* Build configuration list for PBXProject "CAP" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ROOT;
+			productRefGroup = GRP_PRODUCTS /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				TARGET /* CAP */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		RESOURCES /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B010 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		SOURCES /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B001,
+				B002,
+				B003,
+				B004,
+				B005,
+				B006,
+				B007,
+				B008,
+				B009,
+				B011,
+				B012,
+				B013,
+				B014,
+				B015,
+				B016,
+				B017,
+				B018,
+				B019,
+				B020,
+				B021,
+				B022,
+				B023,
+				B024,
+				B025,
+				B026,
+				B027,
+				B028,
+				B029,
+				B030,
+				B031,
+				B032,
+				B033,
+				B034,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CFG_DEBUG_PROJECT /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CFG_RELEASE_PROJECT /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		CFG_DEBUG_TARGET /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CAP/CAP.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CAP/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Debug;
+				INFOPLIST_KEY_CFBundleDisplayName = "CAP Debug";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.francesco.CAP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CFG_RELEASE_TARGET /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CAP/CAP.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CAP/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.francesco.CAP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CFG_LIST_PROJECT /* Build configuration list for PBXProject "CAP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFG_DEBUG_PROJECT /* Debug */,
+				CFG_RELEASE_PROJECT /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFG_LIST_TARGET /* Build configuration list for PBXNativeTarget "CAP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFG_DEBUG_TARGET /* Debug */,
+				CFG_RELEASE_TARGET /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = PROJECT /* Project object */;
+}
