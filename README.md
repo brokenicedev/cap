@@ -73,3 +73,4 @@ La build **Debug** ha **barra gialla** sullâ€™icona e si chiama **CAP Debug** â€
 
 Vedi [docs/ROADMAP.md](docs/ROADMAP.md).
 # cap
+# cap
