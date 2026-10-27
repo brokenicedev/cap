@@ -8,6 +8,7 @@ struct PreferencesView: View {
     @State private var generalShortcut = Preferences.generalScopeShortcut
     @State private var launchAtLoginError: String?
     @State private var accessibilityTrusted = AccessibilityAuthorization.isTrusted
+    @State private var autoCheckUpdates = UpdaterController.shared.automaticallyChecksForUpdates
 
     var body: some View {
         Form {
@@ -64,9 +65,28 @@ struct PreferencesView: View {
                     appState.clearHistory()
                 }
             }
+
+            Section {
+                LabeledContent("Versione", value: UpdaterController.currentVersionDescription)
+                if UpdaterController.shared.isAvailable {
+                    Toggle("Controlla automaticamente", isOn: $autoCheckUpdates)
+                        .onChange(of: autoCheckUpdates) { _, enabled in
+                            UpdaterController.shared.automaticallyChecksForUpdates = enabled
+                        }
+                    Button("Controlla aggiornamenti…") {
+                        UpdaterController.shared.checkForUpdates()
+                    }
+                }
+            } header: {
+                Text("Aggiornamenti")
+            } footer: {
+                if !UpdaterController.shared.isAvailable {
+                    Text("Gli aggiornamenti automatici sono disattivati nelle build Debug.")
+                }
+            }
         }
         .formStyle(.grouped)
-        .frame(width: 460, height: 520)
+        .frame(width: 460, height: 600)
         .onAppear { refreshAccessibilityStatus() }
         .onReceive(Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()) { _ in
             refreshAccessibilityStatus()

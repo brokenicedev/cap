@@ -29,6 +29,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard let appState = AppCoordinator.appState else { return }
 
         PasteTargetTracker.start()
+        UpdaterController.shared.start()
 
         let historyPanel = HistoryPanelController(appState: appState)
         AppCoordinator.historyPanel = historyPanel

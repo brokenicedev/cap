@@ -55,6 +55,15 @@ final class StatusBarController: NSObject {
         )
         settings.target = self
         menu.addItem(settings)
+        if UpdaterController.shared.isAvailable {
+            let updates = NSMenuItem(
+                title: "Controlla aggiornamenti…",
+                action: #selector(checkForUpdates),
+                keyEquivalent: ""
+            )
+            updates.target = self
+            menu.addItem(updates)
+        }
         menu.addItem(.separator())
         let quit = NSMenuItem(
             title: "Esci da \(BuildFlavor.menuBarAccessibilityLabel)",
@@ -68,6 +77,10 @@ final class StatusBarController: NSObject {
 
     @objc private func openSettings() {
         SettingsWindowController.show()
+    }
+
+    @objc private func checkForUpdates() {
+        UpdaterController.shared.checkForUpdates()
     }
 
     @objc private func quitApp() {

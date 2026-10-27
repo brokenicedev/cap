@@ -4,3 +4,16 @@ DerivedData/
 *.xcuserstate
 xcuserdata/
 .swiftpm/
+
+# Release artifacts
+dist/
+*.dmg
+
+# Sparkle signing keys (la private key non va MAI pubblicata)
+secrets/
+
+# Credenziali Apple
+*.p8
+*.p12
+*.cer
+*.certSigningRequest

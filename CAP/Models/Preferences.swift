@@ -54,21 +54,26 @@ enum Preferences {
         defaults.set(name, forKey: Keys.favoriteNamePrefix + String(slot))
     }
 
-    /// Copia le preferenze dal bundle `com.francesco.CopyAndPaste` (una tantum).
+    /// Copia le preferenze dai bundle precedenti (`com.francesco.CAP`, `com.francesco.CopyAndPaste`), una tantum.
     static func migrateFromLegacyBundleIfNeeded() {
         guard !defaults.bool(forKey: Keys.legacyPreferencesMigrated) else { return }
         defaults.set(true, forKey: Keys.legacyPreferencesMigrated)
 
-        let plist = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
-            .appendingPathComponent("Preferences/\(AppIdentity.legacyBundleIdentifier).plist")
-        guard FileManager.default.fileExists(atPath: plist.path),
-              let legacy = NSDictionary(contentsOf: plist) as? [String: Any] else { return }
-
-        for key in legacyPreferenceKeys where defaults.object(forKey: key) == nil {
-            if let value = legacy[key] {
-                defaults.set(value, forKey: key)
+        for bundleID in AppIdentity.legacyBundleIdentifiers {
+            guard let legacy = defaults.persistentDomain(forName: bundleID)
+                ?? legacyPlist(bundleID: bundleID) else { continue }
+            for key in legacyPreferenceKeys where defaults.object(forKey: key) == nil {
+                if let value = legacy[key] {
+                    defaults.set(value, forKey: key)
+                }
             }
         }
+    }
+
+    private static func legacyPlist(bundleID: String) -> [String: Any]? {
+        let plist = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
+            .appendingPathComponent("Preferences/\(bundleID).plist")
+        return NSDictionary(contentsOf: plist) as? [String: Any]
     }
 
     private static let legacyPreferenceKeys: [String] = {
