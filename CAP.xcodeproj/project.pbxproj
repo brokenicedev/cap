@@ -43,6 +43,7 @@
 		B034 /* GroupScopePickerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036; };
 		B035 /* FileClipboardPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F037; };
 		B036 /* UpdaterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038; };
+		B038 /* SecureInputProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F039; };
 		B037 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = PROD_SPARKLE /* Sparkle */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,7 @@
 		F036 /* GroupScopePickerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScopePickerPanel.swift; sourceTree = "<group>"; };
 		F037 /* FileClipboardPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileClipboardPayload.swift; sourceTree = "<group>"; };
 		F038 /* UpdaterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterController.swift; sourceTree = "<group>"; };
+		F039 /* SecureInputProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureInputProbe.swift; sourceTree = "<group>"; };
 		PROD /* CAP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -188,6 +190,7 @@
 				F030,
 				F031,
 				F032,
+				F039,
 				F023,
 				F027,
 				F038,
@@ -314,6 +317,7 @@
 				B034,
 				B035,
 				B036,
+				B038,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

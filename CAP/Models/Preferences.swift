@@ -30,6 +30,16 @@ enum Preferences {
         defaults.set(value, forKey: Keys.closeAfterPaste)
     }
 
+    /// Se attivo, ⌘⇧V / icona aprono il pannello anche con focus su un campo password.
+    /// Default: disattivo (macOS Secure Input / campi password bloccano l’apertura).
+    static var openPanelInPasswordFields: Bool {
+        defaults.bool(forKey: Keys.openPanelInPasswordFields)
+    }
+
+    static func setOpenPanelInPasswordFields(_ value: Bool) {
+        defaults.set(value, forKey: Keys.openPanelInPasswordFields)
+    }
+
     static var generalScopeShortcut: GeneralScopeShortcut {
         guard let raw = defaults.string(forKey: Keys.generalScopeShortcut),
               let value = GeneralScopeShortcut(rawValue: raw) else {
@@ -112,6 +122,7 @@ enum Preferences {
             Keys.maxHistory,
             Keys.ignoredApps,
             Keys.closeAfterPaste,
+            Keys.openPanelInPasswordFields,
             Keys.generalScopeShortcut,
         ]
         for slot in 1 ... 9 {
@@ -125,6 +136,7 @@ enum Preferences {
         static let ignoredApps = "ignoredBundleIDs"
         static let favoriteNamePrefix = "favoriteListName_"
         static let closeAfterPaste = "closePanelAfterPaste"
+        static let openPanelInPasswordFields = "openPanelInPasswordFields"
         static let generalScopeShortcut = "generalScopeShortcut"
         static let favoriteGroupIDs = "favoriteGroupIDs"
         static let panelPosition = "panelPosition"

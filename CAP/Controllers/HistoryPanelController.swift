@@ -29,6 +29,7 @@ final class HistoryPanelController {
             close()
             return
         }
+        guard !SecureInputProbe.shouldBlockPanelOpen else { return }
         PasteTargetTracker.captureForPanelOpen()
         show(anchor: .statusBar(button), deferFocus: false)
     }
@@ -38,6 +39,7 @@ final class HistoryPanelController {
             close()
             return
         }
+        guard !SecureInputProbe.shouldBlockPanelOpen else { return }
         PasteTargetTracker.captureForHotKey()
         NSApp.activate(ignoringOtherApps: true)
         let anchor: PanelAnchor
@@ -51,6 +53,7 @@ final class HistoryPanelController {
     }
 
     func close() {
+        panel?.hidesOnDeactivate = !appState.isPanelPinned
         panel?.orderOut(nil)
         removeMonitors()
         openedAt = nil
@@ -74,6 +77,13 @@ final class HistoryPanelController {
         openedAt = Date()
         appState.prepareForKeyboardNavigation()
         installMonitors()
+        // Con Secure Input (campi password) hidesOnDeactivate chiuderebbe subito il pannello.
+        if Preferences.openPanelInPasswordFields,
+           SecureInputProbe.isSecureEventInputEnabled || SecureInputProbe.isPasswordFieldFocused {
+            panel.hidesOnDeactivate = false
+        } else {
+            panel.hidesOnDeactivate = !appState.isPanelPinned
+        }
         panel.makeKeyAndOrderFront(nil)
         if !deferFocus {
             claimKeyboardFocus()
@@ -81,7 +91,10 @@ final class HistoryPanelController {
     }
 
     private func scheduleFocusRetries() {
-        for delay in [0.05, 0.12, 0.22, 0.35] {
+        let delays: [TimeInterval] = Preferences.openPanelInPasswordFields
+            ? [0.03, 0.08, 0.16, 0.28, 0.45]
+            : [0.05, 0.12, 0.22, 0.35]
+        for delay in delays {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 guard let self, self.panel?.isVisible == true else { return }
                 self.claimKeyboardFocus()
@@ -162,7 +175,12 @@ final class HistoryPanelController {
 
     private func closeIfResignedOutside() {
         guard !isPerformingPaste, !appState.isPanelPinned, let panel, panel.isVisible else { return }
-        if let openedAt, Date().timeIntervalSince(openedAt) < 0.45 {
+        let grace: TimeInterval =
+            (Preferences.openPanelInPasswordFields
+                && (SecureInputProbe.isSecureEventInputEnabled || SecureInputProbe.isPasswordFieldFocused))
+            ? 0.75
+            : 0.45
+        if let openedAt, Date().timeIntervalSince(openedAt) < grace {
             return
         }
         // Non chiudere se il puntatore è ancora sul pannello (es. ⌘⇧V vicino al cursore + Invio).

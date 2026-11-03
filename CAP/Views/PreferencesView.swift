@@ -5,6 +5,7 @@ struct PreferencesView: View {
     @State private var maxHistory = Preferences.maxHistoryCount
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
     @State private var closeAfterPaste = Preferences.closePanelAfterPaste
+    @State private var openInPasswordFields = Preferences.openPanelInPasswordFields
     @State private var generalShortcut = Preferences.generalScopeShortcut
     @State private var panelPosition = Preferences.panelPosition
     @State private var launchAtLoginError: String?
@@ -17,6 +18,10 @@ struct PreferencesView: View {
 
             Section {
                 Toggle("Chiudi il pannello dopo l’incolla", isOn: $closeAfterPaste)
+                Toggle("Apri anche nei campi password", isOn: $openInPasswordFields)
+                    .onChange(of: openInPasswordFields) { _, value in
+                        Preferences.setOpenPanelInPasswordFields(value)
+                    }
 
                 if accessibilityTrusted {
                     Label("Incolla automatico attivo", systemImage: "checkmark.circle.fill")
@@ -35,7 +40,7 @@ struct PreferencesView: View {
                 Text("Incolla automatico")
             } footer: {
                 if accessibilityTrusted {
-                    Text("Dopo il primo permesso in Accessibilità, esci da CAP e riaprilo una volta. Poi l’incolla automatico resta attivo.")
+                    Text("Dopo il primo permesso in Accessibilità, esci da CAP e riaprilo una volta. Poi l’incolla automatico resta attivo. Con «Apri anche nei campi password» disattivato, ⌘⇧V non apre il pannello se il focus è su un campo password.")
                 } else {
                     Text(accessibilityFooterSteps)
                 }
@@ -127,6 +132,7 @@ struct PreferencesView: View {
 
     private func save() {
         Preferences.setClosePanelAfterPaste(closeAfterPaste)
+        Preferences.setOpenPanelInPasswordFields(openInPasswordFields)
         Preferences.setGeneralScopeShortcut(generalShortcut)
         Preferences.setMaxHistoryCount(maxHistory)
     }

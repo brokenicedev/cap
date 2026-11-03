@@ -7,7 +7,7 @@ enum PasteService {
     private static var suppressNextCapture = false
     private static var deliverInFlight = false
     private static var lastDeliverStartedAt: Date?
-    private static let deliverDebounce: TimeInterval = 0.6
+    private static let deliverDebounce: TimeInterval = 0.25
 
     static func writeToPasteboard(_ record: ClippingRecord) {
         let pb = NSPasteboard.general
@@ -75,7 +75,8 @@ enum PasteService {
 
         let target = PasteTargetTracker.resolvedTarget()
         let isImage = record?.payloadFormat.isImage == true
-        let pasteDelay: TimeInterval = isImage ? 0.45 : 0.35
+        // Timeout breve: poll finché l’app target è attiva, poi Invio/⌘V senza attesa fissa lunga.
+        let activationTimeout: TimeInterval = isImage ? 0.18 : 0.10
 
         // Pannello fissato: resta visibile, il focus passa comunque all'app target.
         let keepPanelOpen = AppCoordinator.appState?.isPanelPinned == true
@@ -100,22 +101,38 @@ enum PasteService {
             finish()
         }
 
-        if let target {
-            target.activate(options: [.activateIgnoringOtherApps, .activateAllWindows])
+        let deliverNow: () -> Void = {
+            if !keepPanelOpen { NSApp.hide(nil) }
+            sendPaste()
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + pasteDelay) {
-            if let target, !target.isActive {
-                target.activate(options: [.activateIgnoringOtherApps, .activateAllWindows])
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    if !keepPanelOpen { NSApp.hide(nil) }
-                    sendPaste()
+        guard let target else {
+            deliverNow()
+            return
+        }
+
+        target.activate(options: [.activateIgnoringOtherApps, .activateAllWindows])
+
+        if target.isActive {
+            // Un giro di run loop: pasteboard + activate devono “settarsi” prima di ⌘V.
+            DispatchQueue.main.async(execute: deliverNow)
+            return
+        }
+
+        let deadline = Date().addingTimeInterval(activationTimeout)
+        func pollActivation() {
+            if target.isActive || Date() >= deadline {
+                if !target.isActive {
+                    target.activate(options: [.activateIgnoringOtherApps, .activateAllWindows])
                 }
-            } else {
-                if !keepPanelOpen { NSApp.hide(nil) }
-                sendPaste()
+                deliverNow()
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.012) {
+                pollActivation()
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: pollActivation)
     }
 
     private enum PasteDeliveryResult {
