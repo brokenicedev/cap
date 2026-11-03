@@ -12,6 +12,20 @@
     -->
     <!-- ITEMS -->
     <item>
+      <title>0.3.0</title>
+      <pubDate>Tue, 03 Nov 2026 16:24:07 GMT</pubDate>
+      <sparkle:version>3</sparkle:version>
+      <sparkle:shortVersionString>0.3.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:fullReleaseNotesLink>https://github.com/brokenicedev/cap/releases/tag/v0.3.0</sparkle:fullReleaseNotesLink>
+      <description><![CDATA[<p>Nuova opzione «Apri anche nei campi password»: ⌘⇧V e l&#x27;icona aprono il pannello anche quando il focus è su un campo password (disattivata di default).</p><p>Incolla più rapido: CAP attende solo il tempo necessario perché l&#x27;app di destinazione torni attiva, invece di un ritardo fisso.</p>]]></description>
+      <enclosure
+        url="https://github.com/brokenicedev/cap/releases/download/v0.3.0/CAP-0.3.0.dmg"
+        length="2242849"
+        type="application/octet-stream"
+        sparkle:edSignature="YWAL1doOUk/up7WgMR0UUKGIw+kOzurARollBaFkJJG5GmPjY4lQYqbKXfjKE8WA0emYL2WjLvyC1tV5rsgcDg==" />
+    </item>
+    <item>
       <title>0.2.0</title>
       <pubDate>Tue, 27 Oct 2026 15:03:24 GMT</pubDate>
       <sparkle:version>2</sparkle:version>
